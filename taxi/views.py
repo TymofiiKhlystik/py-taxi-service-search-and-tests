@@ -6,8 +6,13 @@ from django.views import generic
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Driver, Car, Manufacturer
-from .forms import DriverCreationForm, DriverLicenseUpdateForm, CarForm, DriverSearchForm, ManufacturerSearchForm, \
-    CarSearchForm
+from .forms import (
+    DriverCreationForm,
+    DriverLicenseUpdateForm,
+    CarForm,
+    DriverSearchForm,
+    ManufacturerSearchForm, \
+    CarSearchForm)
 
 
 @login_required
@@ -50,8 +55,9 @@ class ManufacturerListView(LoginRequiredMixin, generic.ListView):
         form = ManufacturerSearchForm(self.request.GET)
 
         if form.is_valid() and form.cleaned_data.get("name"):
-            queryset = queryset.filter(name__icontains=form.cleaned_data["name"])
-
+            queryset = queryset.filter(
+                name__icontains=form.cleaned_data["name"]
+            )
         return queryset
 
 
@@ -90,7 +96,9 @@ class CarListView(LoginRequiredMixin, generic.ListView):
         form = CarSearchForm(self.request.GET)
 
         if form.is_valid() and form.cleaned_data.get("model"):
-            queryset = queryset.filter(model__icontains=form.cleaned_data["model"])
+            queryset = queryset.filter(
+                model__icontains=form.cleaned_data["model"]
+            )
 
         return queryset
 
@@ -133,8 +141,9 @@ class DriverListView(LoginRequiredMixin, generic.ListView):
         form = DriverSearchForm(self.request.GET)
 
         if form.is_valid() and form.cleaned_data.get("username"):
-            queryset = queryset.filter(username__icontains=form.cleaned_data["username"])
-
+            queryset = queryset.filter(
+                username__icontains=form.cleaned_data["username"]
+            )
         return queryset
 
 
@@ -156,7 +165,7 @@ class DriverLicenseUpdateView(LoginRequiredMixin, generic.UpdateView):
 
 class DriverDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Driver
-    success_url = reverse_lazy("")
+    success_url = reverse_lazy("taxi:driver-list")
 
 
 @login_required

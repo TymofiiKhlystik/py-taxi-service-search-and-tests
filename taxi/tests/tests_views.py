@@ -1,9 +1,10 @@
 from django.contrib.auth import get_user_model
 from django.test import TestCase
-from django.urls import reverse, resolve
+from django.urls import reverse, resolve, NoReverseMatch
 from django.conf import settings
 from taxi.urls import urlpatterns
 from taxi.models import Driver, Car, Manufacturer
+
 
 class PublicAccessTest(TestCase):
     def test_login_required_for_protected_pages(self):
@@ -15,14 +16,16 @@ class PublicAccessTest(TestCase):
             if hasattr(urlpattern, "name") and urlpattern.name is not None:
                 try:
                     url = reverse(f"taxi:{urlpattern.name}")
-                except:
+                except NoReverseMatch:
                     continue
                 if url in exempt_urls:
                     continue
                 response = self.client.get(url)
                 self.assertEqual(
                     response.status_code, 302,
-                    msg=f"URL '{url}' повинен вимагати логін, але повернув {response.status_code}"
+                    msg=f"URL '{url}' "
+                        f"повинен вимагати логін, але повернув "
+                        f"{response.status_code}"
                 )
                 self.assertIn(settings.LOGIN_URL, response.url)
 
@@ -60,6 +63,7 @@ class PrivateDriverTest(TestCase):
         self.assertEqual(driver.username, "New_user")
         self.assertEqual(driver.license_number, "ABC12345")
 
+
 class PrivateCarTest(TestCase):
     def setUp(self):
         self.driver = get_user_model().objects.create_user(
@@ -78,7 +82,6 @@ class PrivateCarTest(TestCase):
         )
         self.car.drivers.add(self.driver)
 
-
     def test_create_driver(self):
         self.assertEqual(self.car.model, "Test Car")
         self.assertEqual(self.car.manufacturer, self.manufacturer)
@@ -93,7 +96,6 @@ class ManufacturerTest(TestCase):
         )
         self.client.force_login(self.driver)
 
-
     def test_create_manufacturer(self):
         manufacturer_test = Manufacturer.objects.create(
             name="Test Manufacturer",
@@ -101,4 +103,3 @@ class ManufacturerTest(TestCase):
         )
         self.assertEqual(manufacturer_test.name, "Test Manufacturer")
         self.assertEqual(manufacturer_test.country, "US")
-
