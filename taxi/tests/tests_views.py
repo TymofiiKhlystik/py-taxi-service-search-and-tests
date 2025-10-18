@@ -23,9 +23,7 @@ class PublicAccessTest(TestCase):
                 response = self.client.get(url)
                 self.assertEqual(
                     response.status_code, 302,
-                    msg=f"URL '{url}' "
-                        f"повинен вимагати логін, але повернув "
-                        f"{response.status_code}"
+                    msg=f"URL '{url}' "f"повинен вимагати логін, але повернув {response.status_code}"
                 )
                 self.assertIn(settings.LOGIN_URL, response.url)
 
