@@ -140,13 +140,17 @@ class SearchViewsTest(TestCase):
     #  DRIVER SEARCH TESTS
 
     def test_driver_search_returns_matches(self):
-        response = self.client.get(reverse("taxi:driver-list"), {"username": "john"})
+        response = self.client.get(
+            reverse("taxi:driver-list"), {"username": "john"}
+        )
         driver_list = (response.context.get("driver_list")
                        or response.context.get("object_list"))
         self.assertEqual(len(driver_list), 2)
 
     def test_driver_search_no_matches(self):
-        response = self.client.get(reverse("taxi:driver-list"), {"username": "zzz"})
+        response = self.client.get(
+            reverse("taxi:driver-list"), {"username": "zzz"}
+        )
         driver_list = (response.context.get("driver_list")
                        or response.context.get("object_list"))
         self.assertEqual(len(driver_list), 0)
@@ -160,13 +164,17 @@ class SearchViewsTest(TestCase):
     # CAR SEARCH TESTS
 
     def test_car_search_returns_matches(self):
-        response = self.client.get(reverse("taxi:car-list"), {"model": "c"})
+        response = self.client.get(
+            reverse("taxi:car-list"), {"model": "c"}
+        )
         car_list = (response.context.get("car_list")
                     or response.context.get("object_list"))
         self.assertEqual(len(car_list), 3)  # Corolla, Civic
 
     def test_car_search_no_matches(self):
-        response = self.client.get(reverse("taxi:car-list"), {"model": "zzz"})
+        response = self.client.get(
+            reverse("taxi:car-list"), {"model": "zzz"}
+        )
         car_list = (response.context.get("car_list")
                     or response.context.get("object_list"))
         self.assertEqual(len(car_list), 0)
@@ -179,13 +187,17 @@ class SearchViewsTest(TestCase):
 
     # MANUFACTURER SEARCH TESTS
     def test_manufacturer_search_returns_matches(self):
-        response = self.client.get(reverse("taxi:manufacturer-list"), {"name": "o"})
+        response = self.client.get(
+            reverse("taxi:manufacturer-list"), {"name": "o"}
+        )
         manufacturer_list = (response.context.get("manufacturer_list")
                              or response.context.get("object_list"))
         self.assertEqual(len(manufacturer_list), 3)  # Toyota + Honda
 
     def test_manufacturer_search_no_matches(self):
-        response = self.client.get(reverse("taxi:manufacturer-list"), {"name": "zzz"})
+        response = self.client.get(
+            reverse("taxi:manufacturer-list"), {"name": "zzz"}
+        )
         manufacturer_list = (response.context.get("manufacturer_list")
                              or response.context.get("object_list"))
         self.assertEqual(len(manufacturer_list), 0)

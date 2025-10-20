@@ -1,12 +1,9 @@
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
+
 from django.test import TestCase
-from django.urls import reverse
 
 from taxi.forms import (
     DriverCreationForm,
 )
-from taxi.models import Manufacturer, Car
 
 
 class DriverFormTest(TestCase):
@@ -34,4 +31,3 @@ class DriverFormTest(TestCase):
         form = DriverCreationForm(data=form_data)
         self.assertFalse(form.is_valid())
         self.assertIn("license_number", form.errors)
-
